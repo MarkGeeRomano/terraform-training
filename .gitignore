@@ -2,3 +2,5 @@
 **/.DS_store
 **/.terraform
 **/provider.tf
+**/.terraform.tfstate
+**/.terraform.tfstate.backup
