@@ -1,3 +1,6 @@
+locals {
+  time = "${replace("${timestamp()}", ":", "-")}"
+}
 #Resources
 resource "aws_instance" "ec2" {
   ami                         = var.ami
@@ -13,11 +16,22 @@ resource "aws_instance" "ec2" {
     Name        = "${var.name}-${count.index + 1}-${var.environment}-${var.project}"
     Region      = var.region
     Count       = var.instance_count
-    Timestamp   = "${replace("${timestamp()}", ":", "-")}"
+    Timestamp   =  local.time
     Project     = var.project
     Environment = var.environment
   }
 }
+
+resource "null_resource" "instance_count" {
+  triggers {
+    disk_size = aws_instance.ec2.count
+  }
+}
+
+provisioner "local_exec" {
+  command = "echo YELLLLLOWWWWWWW"
+}
+
 
 #output
 output "region" {
